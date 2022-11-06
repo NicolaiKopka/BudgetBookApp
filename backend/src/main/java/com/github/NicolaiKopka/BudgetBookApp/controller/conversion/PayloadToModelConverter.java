@@ -1,4 +1,4 @@
-package com.github.NicolaiKopka.BudgetBookApp.conversion;
+package com.github.NicolaiKopka.BudgetBookApp.controller.conversion;
 
 import com.NicolaiKopka.budgetbookapp.api.AddExpenseInformationPayload;
 import com.github.NicolaiKopka.BudgetBookApp.domainDefinition.AddExpenseInformation;

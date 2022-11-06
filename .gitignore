@@ -30,4 +30,8 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+frontend/.vscode/
+
+### angular ###
+frontend/.angular
+frontend/node_modules
