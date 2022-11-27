@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'budget-book-app-frontend';
+  toChild: string = "Hello Child"
+  fromChildVariable: string = ""
+
+  fromChild(data: string) {
+    this.fromChildVariable = data
+  }
 }

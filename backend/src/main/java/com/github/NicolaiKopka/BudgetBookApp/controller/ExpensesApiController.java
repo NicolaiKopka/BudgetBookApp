@@ -16,7 +16,7 @@ public class ExpensesApiController implements ExpensesApi {
     final ExpensesApiService expensesApiService;
 
     @Override
-    public ResponseEntity<AddExpenseResponsePayload> addNewExpense(final AddExpenseInformationPayload addExpenseInformationPayload) {
+    public ResponseEntity<AddExpenseResponsePayload> addExpense(final AddExpenseInformationPayload addExpenseInformationPayload) {
         final AddExpenseResponseWrapper responseWrapper = expensesApiService.addNewExpense(addExpenseInformationPayload);
         return ResponseEntity.status(responseWrapper.getHttpStatus()).body(responseWrapper.getPayload());
     }
