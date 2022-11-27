@@ -1,0 +1,61 @@
+openapi: 3.0.2
+info:
+    title: "BudgetBookApp Api"
+    description: ""
+    version: "0.0.1"
+    contact:
+        email: ""
+tags:
+    - name: BudgetBookApp
+      description: APIs a developer can use in application
+paths:
+    /expenses:
+        post:
+            summary: Add a new expense to DB
+            operationId: addExpense
+            tags:
+                - BudgetBookApp
+            requestBody:
+                description: A layout JSON object
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AddExpenseInformation'
+            responses:
+                201:
+                    description: Returns AddExpenseResponse
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AddExpenseResponse'
+components:
+    schemas:
+        AddExpenseInformation:
+            type: object
+            properties:
+                amount:
+                    type: number
+                intervalNumber:
+                    type: integer
+                intervalSpecification:
+                    type: string
+                dueDate:
+                    type: integer
+                    format: int64
+            required:
+                - amount
+                - intervalNumber
+                - intervalSpecification
+                - dueDate
+        AddExpenseResponse:
+            type: object
+            properties:
+                amount:
+                    type: number
+                message:
+                    type: string
+
+
+
+

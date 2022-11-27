@@ -1,0 +1,6 @@
+<form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
+  <div>
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" formControlName="amount">
+  </div>
+</form>

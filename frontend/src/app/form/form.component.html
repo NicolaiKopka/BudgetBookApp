@@ -1,0 +1,10 @@
+<p>form works!</p>
+<div>
+  <input  name="text" type="text" [(ngModel)]="inputData">
+  <button (click)="printText()">Click Me</button>
+  <button (click)="testTalk()">Talk with Brother</button>
+  <p>{{outputData}}</p>
+  <button *ngIf="outputData == 'test'">Button On Test</button>
+  <p>{{fromParent}}</p>
+  <a routerLink="/add-expense">go to Form</a>
+</div>
