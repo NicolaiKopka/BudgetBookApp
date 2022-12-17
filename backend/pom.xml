@@ -2,15 +2,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.NicolaiKopka</groupId>
-		<artifactId>budget-book-app-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>budget-book-app-backend</artifactId>
+
+	<groupId>com.github.NicolaiKopka</groupId>
+	<artifactId>budget-book-app-backend-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>budget-book-app-backend</name>
-	<description>Budget Book Web App</description>
+	<packaging>pom</packaging>
+
+	<name>budget-book-app-backend-parent</name>
+	<description>budget-book-app-backend-parent</description>
+
+	<properties>
+		<java.version>18</java.version>
+		<lombok.version>1.18.24</lombok.version>
+		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+		<springfox-swagger2.version>3.0.0</springfox-swagger2.version>
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.5</version>
+		<relativePath/>
+	</parent>
+
+	<modules>
+		<module>api-definition</module>
+		<module>api</module>
+		<module>domain</module>
+		<module>domain-definition</module>
+		<module>budget-book-app-backend</module>
+		<module>domain-provider</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.spockframework</groupId>
+				<artifactId>spock-core</artifactId>
+				<version>2.1-groovy-3.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -20,7 +55,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -29,7 +63,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,142 +74,104 @@
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.1</version>
+			<version>${jackson-databind-nullable.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
+			<version>${springfox-swagger2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>org.spockframework</groupId>
-			<artifactId>spock-core</artifactId>
-			<version>2.1-groovy-3.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>5.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<generateModels>true</generateModels>
-							<generateApis>true</generateApis>
-							<generateApiDocumentation>false</generateApiDocumentation>
-							<generateSupportingFiles>true</generateSupportingFiles>
-							<inputSpec>
-								${project.basedir}/src/main/resources/static/api.yaml
-							</inputSpec>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.NicolaiKopka.budgetbookapp.api</apiPackage>
-							<modelPackage>com.NicolaiKopka.budgetbookapp.api</modelPackage>
-							<supportingFilesToGenerate>
-								ApiUtil.java
-							</supportingFilesToGenerate>
-							<modelNameSuffix>Payload</modelNameSuffix>
-							<configOptions>
-								<delegatePattern>true</delegatePattern>
-								<interfaceOnly>true</interfaceOnly>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.8.0</version>
-				<configuration>
-					<nodeVersion>v16.14.2</nodeVersion>
-					<npmVersion>8.19.2</npmVersion>
-					<workingDirectory>${project.parent.basedir}/frontend</workingDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>npm install</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>npm run test</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run test:ci</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm run build</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-static</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes/static</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.parent.basedir}/frontend/build</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+<!--	<build>-->
+<!--		<plugins>-->
+<!--			<plugin>-->
+<!--				<groupId>com.github.eirslett</groupId>-->
+<!--				<artifactId>frontend-maven-plugin</artifactId>-->
+<!--				<version>1.8.0</version>-->
+<!--				<configuration>-->
+<!--					<nodeVersion>v16.14.2</nodeVersion>-->
+<!--					<npmVersion>8.19.2</npmVersion>-->
+<!--					<workingDirectory>${project}/frontend</workingDirectory>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>install node and npm</id>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<goals>-->
+<!--							<goal>install-node-and-npm</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>npm install</id>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>npm run test</id>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>run test:ci</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>npm run build</id>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>run build</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<artifactId>maven-resources-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>copy-static</id>-->
+<!--						<goals>-->
+<!--							<goal>copy-resources</goal>-->
+<!--						</goals>-->
+<!--						<phase>prepare-package</phase>-->
+<!--						<configuration>-->
+<!--							<outputDirectory>${project.build.directory}/classes/static</outputDirectory>-->
+<!--							<resources>-->
+<!--								<resource>-->
+<!--									<directory>${project.basedir}/frontend/build</directory>-->
+<!--									<filtering>false</filtering>-->
+<!--								</resource>-->
+<!--							</resources>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<excludes>-->
+<!--						<exclude>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--						</exclude>-->
+<!--					</excludes>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--		</plugins>-->
+<!--	</build>-->
 
 
 </project>

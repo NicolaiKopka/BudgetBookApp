@@ -18,6 +18,14 @@ export class ExpenseFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      this.http.post(
+        'http://localhost:8080/expenses',
+        {
+          amount: 123,
+          interval: 2,
+          intervalSpecification: 'monthly',
+          dueDate: '22-2-22'
+        })
         this.addExpenseForm = new FormGroup({
             'amount': new FormControl(null, Validators.required),
             'interval': new FormControl(null, [Validators.pattern('^[0-9]*$'), Validators.required]),
@@ -26,14 +34,19 @@ export class ExpenseFormComponent implements OnInit {
         })
     }
 
-    addExpense() {
-        this.payload.amount = this.addExpenseForm.get('amount')!.value
+    addExpense(): void {
+        /*this.payload.amount = this.addExpenseForm.get('amount')?.value
         this.payload.interval = this.addExpenseForm.get('interval')!.value
         this.payload.intervalSpecification = this.addExpenseForm.get('intervalSpecification')!.value
-        this.payload.dueDate = this.addExpenseForm.get('dueDate')!.value
+        this.payload.dueDate = this.addExpenseForm.get('dueDate')!.value*/
         this.http.post(
             'http://localhost:8080/expenses',
-            this.payload)
+          {
+            amount: 123,
+            interval: 2,
+            intervalSpecification: 'monthly',
+            dueDate: '22-2-22'
+          })
     }
 
 }
