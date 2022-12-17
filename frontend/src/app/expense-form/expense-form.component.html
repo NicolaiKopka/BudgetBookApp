@@ -2,5 +2,15 @@
   <div>
     <label for="amount">Amount</label>
     <input type="number" id="amount" formControlName="amount">
+    <label for="interval">Interval</label>
+    <input type="number" id="interval" formControlName="interval">
+    <label for="intervalSpec">Interval Specification</label>
+    <select id="intervalSpec" formControlName="intervalSpecification">
+      <option>daily</option>
+      <option>weekly</option>
+      <option>monthly</option>
+    </select>
+    <label for="dueDate">Due Date</label>
+    <input type="date" id="dueDate" formControlName="dueDate">
   </div>
 </form>

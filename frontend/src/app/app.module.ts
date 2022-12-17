@@ -8,6 +8,7 @@ import { Child2ComponentComponent } from './child2-component/child2-component.co
 import {CommunicationService} from "./communication.service";
 import { ExpenseFormComponent } from './expense-form/expense-form.component';
 import {AppRoutingModules} from "./app-routing.modules";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {AppRoutingModules} from "./app-routing.modules";
         BrowserModule,
         FormsModule,
         AppRoutingModules,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
   providers: [CommunicationService],
   bootstrap: [AppComponent]
